@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PracticeChart from './practiceChart';
 
 import Select from 'react-select';
-import 'react-select/dist/react-select.css';
 
 import { connect } from 'react-redux';
 import * as actions from '../actions';
@@ -13,7 +12,8 @@ class App extends Component {
 		super();
 
 		this.state = ({
-			currencyQuery: 'USD'
+			currencyQuery: 'USD',
+			placeHolder: 'Select a new base currency'
 		})
 
 		// this.renderChart = this.renderChart.bind(this);
@@ -26,8 +26,17 @@ class App extends Component {
 			this.props.fetchData(this.state.currencyQuery);
   	}
 
+
+ //  	componentWillReceiveProps(nextProps) {
+	// 	if(this.props !== nextProps) {
+	// 		this.setState({fakeData: this.props.fakeData});
+	// 	}
+	// }
+
   	logChange(val) {
-  		console.log("Selected: " + JSON.stringify(val));
+  		this.setState({ placeHolder: val.value, currencyQuery: val.value }, () => {
+  			this.props.fetchData(this.state.currencyQuery);
+  		});
   	}
 
   	renderSelect(){
@@ -35,17 +44,16 @@ class App extends Component {
   		var options = [];
 
   		options = this.props.data.map((data) => {
-  			return { value: data.title };
+  			return { value: data.title, label: data.title };
   		})
 
   		console.log("options", options);
-
 
   		return(
   			<div className="bind">
   				<Select
   					name="form-field-name"
-  					placeholder={'Select a new base currency'}
+  					placeholder={this.state.placeHolder}
 				  	options={options}
 				  	onChange={this.logChange.bind(this)}
 				/>
@@ -65,10 +73,12 @@ class App extends Component {
 			              <PracticeChart
 							fakeData={this.props.data}
 						  />
-						  <h1>
+						  <h1 className="space">
 						  	Current Base Currency
 						  </h1>
-						  {this.state.currencyQuery}
+						  <h3 className="space">
+						  	{this.state.currencyQuery}
+						  </h3>
 						  {this.renderSelect()}
 					  </div>
 		        }
