@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import PracticeChart from './practiceChart';
-import axios from 'axios';
-import _ from 'lodash';
+
+import Select from 'react-select';
+import 'react-select/dist/react-select.css';
+
+import { connect } from 'react-redux';
+import * as actions from '../actions';
 
 class App extends Component {
 
@@ -9,7 +13,7 @@ class App extends Component {
 		super();
 
 		this.state = ({
-			data: undefined
+			currencyQuery: 'USD'
 		})
 
 		// this.renderChart = this.renderChart.bind(this);
@@ -19,78 +23,54 @@ class App extends Component {
 	componentWillMount(){
 	  		//probably move this into the redux store if you want to make multipurpose switching between currencies
 	  		//make a list of currencies and pass it in to the action creator with different tags 'USD', 'GBP' etc
-	  		axios.get('http://api.fixer.io/latest?base=USD')
-		    	.then((response) => {
-			        const temp  = response.data.rates;
-			        var arr = Object.keys(temp).map(function (key) { 
-			          return (
-			              temp[key]
-			          ); 
-			        });
-
-			        var arr2 = Object.keys(temp).map(function (key) { 
-			          return (
-			              key
-			          ); 
-			        });
-
-			        var empty = [];
-
-			        for(var i = 0; i < arr.length; i++){
-			          empty[i] = {title: arr2[i], value: arr[i]};
-			        }
-
-			        _.remove(empty, {title: 'IDR'});
-			        _.remove(empty, {title: 'KRW'});
-			        _.remove(empty, {title: 'HUF'});
-
-			        empty.sort((a, b) => {
-					    var titleA = a.title.toLowerCase()
-					    var titleB = b.title.toLowerCase()
-					    if (titleA < titleB) //sort string ascending
-					        return -1 
-					    if (titleA > titleB)
-					        return 1
-					    return 0 //default return value (no sorting)
-					})
-
-			        this.setState({ data: empty });
-			        console.log(this.state.data)
-		    })
+			this.props.fetchData(this.state.currencyQuery);
   	}
 
-  	// renderChart(){
+  	logChange(val) {
+  		console.log("Selected: " + JSON.stringify(val));
+  	}
 
-  	// 	if(this.state.data.length === 0){
-  	// 		return(
-  	// 			<div>
-  	// 				Still Loading
-  	// 			<div>
-  	// 		);
-  	// 	}
+  	renderSelect(){
 
-  	// 	else {
-  	// 		return (
-  	// 			<div className="container">
-			// 		<PracticeChart
-			// 			fakeData={this.state.data}
-			// 		/>
-			// 	</div>
-  	// 		);
-  	// 	}
-  	// }
+  		var options = [];
 
+  		options = this.props.data.map((data) => {
+  			return { value: data.title };
+  		})
+
+  		console.log("options", options);
+
+
+  		return(
+  			<div className="bind">
+  				<Select
+  					name="form-field-name"
+  					placeholder={'Select a new base currency'}
+				  	options={options}
+				  	onChange={this.logChange.bind(this)}
+				/>
+  			</div>
+  		)
+  	}
 
 	render() {
+		console.log('app', this.props.data)
 		return(
 			<div className="container">
-				{ this.state.data === undefined
+				{ this.props.data === undefined
 		            ? <div>
 		                Still loading
 		              </div>
-		            : <PracticeChart
-						fakeData={this.state.data}
-					  />
+		            : <div>
+			              <PracticeChart
+							fakeData={this.props.data}
+						  />
+						  <h1>
+						  	Current Base Currency
+						  </h1>
+						  {this.state.currencyQuery}
+						  {this.renderSelect()}
+					  </div>
 		        }
 				
 			</div>
@@ -98,4 +78,10 @@ class App extends Component {
 	}
 }
 
-export default App;
+function mapStateToProps(state) {
+	return {
+		data: state.data.currency
+	};
+}
+
+export default connect(mapStateToProps, actions)(App);

@@ -47,11 +47,20 @@ svg {
 }
 
 .Axis text {
-  font-size: 11px;
+  font-size: 13px;
   fill: black;
 }
 
 .Axis-Bottom text {
   transform: rotate(-45deg);
   text-anchor: end;
+}
+
+.Select {
+  margin: auto !important;
+  width: 25% !important;
+}
+
+.Select-value {
+	color: black !important;
 }

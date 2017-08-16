@@ -1,7 +1,6 @@
 import React, { Component }  from 'react';
-import { scaleLinear, scaleOrdinal } from 'd3-scale';
+import { scaleOrdinal } from 'd3-scale';
 
-import { interpolateLab } from 'd3-interpolate';
 
 //set different colors here
 
@@ -30,8 +29,6 @@ class Bars extends Component {
 			}
 			rgb.push(color);
 		}
-			
-		console.log(rgb);
 
       	this.colorOrdinalScale = scaleOrdinal()
 							.domain([0, this.props.maxValue])
@@ -44,7 +41,7 @@ class Bars extends Component {
 
 	render() {
 		const { scales, margins, data, svgDimensions } = this.props;
-		const { xScale, yScale } = scales;
+		const { xScaleY, yScaleY } = scales;
 		const { height } =  svgDimensions;
 
 		const bars = (
@@ -52,10 +49,10 @@ class Bars extends Component {
 					return(
 							<rect
 								key={datum.title}
-								x={xScale(datum.title)}
-								y={yScale(datum.value)}
-								height={height - margins.bottom - scales.yScale(datum.value)}
-								width={xScale.bandwidth()}
+								x={xScaleY(datum.title)}
+								y={yScaleY(datum.value)}
+								height={height - margins.bottom - scales.yScaleY(datum.value)}
+								width={xScaleY.bandwidth()}
 								fill={this.colorOrdinalScale(datum.value)}
 							/>
 					)
