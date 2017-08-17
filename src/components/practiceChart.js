@@ -50,8 +50,7 @@ class PracticeChart extends Component {
 		const maxValue = Math.max.apply(Math, this.props.fakeData.map(function(data){return data.value;}))
 
 		//range is pixel values
-		console.log('practice chart', this.props.fakeData);
-		console.log("maxValue", maxValue);
+
 
 		const xScale = this.xScale
 							.padding(0.5)
@@ -77,7 +76,6 @@ class PracticeChart extends Component {
 
 		return(
 			<div>
-				PracticeChart
 				<svg 
 					width={svgDimensions.width} 
 					height={svgDimensions.height}

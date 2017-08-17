@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import PracticeChart from './practiceChart';
+import DateChart from './dateChart';
+import Header from './header';
 
 import Select from 'react-select';
 
@@ -47,8 +49,6 @@ class App extends Component {
   			return { value: data.title, label: data.title };
   		})
 
-  		console.log("options", options);
-
   		return(
   			<div className="bind">
   				<Select
@@ -62,9 +62,9 @@ class App extends Component {
   	}
 
 	render() {
-		console.log('app', this.props.data)
 		return(
-			<div className="container">
+			<div className="container-fluid">
+				<Header />
 				{ this.props.data === undefined
 		            ? <div>
 		                Still loading
@@ -77,11 +77,13 @@ class App extends Component {
 						  	Current Base Currency
 						  </h1>
 						  <h3 className="space">
-						  	{this.state.currencyQuery}
+						  	1&nbsp;{this.state.currencyQuery}
 						  </h3>
 						  {this.renderSelect()}
 					  </div>
 		        }
+
+		        <DateChart />
 				
 			</div>
 		);

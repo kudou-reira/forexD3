@@ -37,7 +37,7 @@ body,html{
 
 svg {
     display: block;
-    margin: 0 auto;
+    margin: 0 auto !important;
 }
 
 
@@ -67,10 +67,46 @@ h3 {
 }
 
 
+/* Add a black background color to the top navigation */
+.topnav {
+    background-color: #333;
+    overflow: hidden;
+}
 
+/* Style the links inside the navigation bar */
+.topnav a {
+    float: left;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
 
+.container-fluid {
+	margin: auto !important;
+} 
 
+.navbar {
+    color: #FFFFFF;
+}
 
+.navbar .nav > li > a {
+    float: none;
+    line-height: 19px;
+    text-decoration: none;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    color:  #ddd;
+}
+
+.navbar .navbar-brand {
+    padding-top: 15px;
+    line-height: 19px;
+    text-decoration: none;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    color:  #ddd;
+}
 
 
 
