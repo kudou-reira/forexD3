@@ -83,7 +83,7 @@ class App extends Component {
 					  </div>
 		        }
 
-		        <DateChart />
+		        <DateChart base={this.state.currencyQuery} />
 				
 			</div>
 		);

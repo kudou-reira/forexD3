@@ -1,7 +1,15 @@
+import Moment from 'react-moment';
+import 'moment-timezone';
+import * as actions from '../actions';
+import { enumerateDays, calculateBetween } from './helpers/helperFunctions';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+var moment = require('moment');
+
+
 var Chart = require('react-d3-core').Chart;
 var LineChart = require('react-d3-basic').LineChart;
+
 
 class DateChart extends Component {
 
@@ -9,21 +17,46 @@ class DateChart extends Component {
 		super()
 
 		this.state = {
-
+			timeData: []
 		}
-
 	}
 
-	// componentWillMount() {
-	// 	this.setState({fakeData: this.props.fakeData});
-	// 	console.log('state fakeData', this.state.fakeData);
-	// }
+	componentWillMount() {
+		this.calculateDays();
+	}
 
 	// componentWillReceiveProps(nextProps) {
 	// 	if(this.props !== nextProps) {
-	// 		this.setState({fakeData: this.props.fakeData});
+	// 		this.setState({timeData: this.props.timeData});
 	// 	}
 	// }
+
+	calculateDays() {
+		var currentDate = moment();
+		var hold = enumerateDays('2017-7-10', currentDate);
+
+		var days = [];
+		var firstDay = hold[0];
+
+
+		days = hold.map((date) => {
+			this.props.fetchTimeData('USD', date);
+			var inBetween = calculateBetween(firstDay, date);
+
+			return(
+				{
+					currencies: this.props.timeData,
+					date: date,
+					days: inBetween
+				}
+			)
+		})
+
+		// console.log("testHold", days);
+		// console.log("testHold", this.props.timeData);
+
+	}
+
 
 	render(){
 
@@ -62,11 +95,14 @@ class DateChart extends Component {
               "fill-opacity": .2
             }
           }
-        ],
-        x = function(d) {
+        ]
+
+        //iterate over a list of years and calculate days from using moment
+        //the data will have years, but the function down here will change it
+        //set the very first index date as the "from" date in moment.js
+        var x = function(d) {
           return d.index;
         }
-
 
 		return(
 			<div>
@@ -83,4 +119,10 @@ class DateChart extends Component {
 	}
 }
 
-export default DateChart;
+function mapStateToProps(state) {
+	return {
+		timeData: state.data.currencyTime
+	};
+}
+
+export default connect(mapStateToProps, actions)(DateChart);

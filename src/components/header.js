@@ -17,23 +17,16 @@ class Header extends Component {
 
 	checkMarkets() {
 
+		//australia and japan are broken
+
 		var markets = [];
 		var printMarkets = [];
 
-		var germany = !this.isItTime('06:00', '14:00');
-		console.log("ger", germany);
-
-		var UK = !this.isItTime('07:00', '15:00');
-		console.log("uk", UK);
-
+		var germany = !this.isItTime('07:00', '15:00');
+		var UK = !this.isItTime('08:00', '16:00');
 		var USA = !this.isItTime('12:00', '20:00');
-		console.log("usa", USA);
-
-		var AUS = !this.isItTime('22:00', '06:00');
-		console.log("aus", AUS);
-
+		var AUS = !this.isItTime('22:00', '6:00');
 		var JPN = !this.isItTime('23:00', '07:00');
-		console.log("jpn", JPN);
 
 		if(germany === true){
 			markets.push("EUR")
@@ -55,7 +48,6 @@ class Header extends Component {
 			markets.push("JPY")
 		}
 
-		console.log(markets);
 
 		for(var i = 0; i < markets.length; i++){
 			printMarkets[i] = " " + markets[i]
@@ -68,13 +60,10 @@ class Header extends Component {
 	}
 
 	isItTime(startTimeString, endTimeString) {
-	    let now = moment.utc(this.state.currentTime);
+	    let now = moment(this.state.currentTime);
 
 	    let start = moment(startTimeString, 'HH:mm', true);
 	    let end = moment(endTimeString, 'HH:mm', true);
-
-	    console.log("now", now);
-	    console.log(start);
 
 	    if (end.isBefore(start)) {
 	        if (now.isBefore(end)) {
