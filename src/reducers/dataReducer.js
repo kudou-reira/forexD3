@@ -6,7 +6,7 @@ import fakeData from '../data/fakeData';
 
 const INITIAL_STATE = {
 	currency: fakeData,
-	currencyTime: fakeData
+	currencyTime: []
 }
 
 export default function(state = INITIAL_STATE, action) {

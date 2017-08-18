@@ -25,7 +25,7 @@ class Header extends Component {
 		var germany = !this.isItTime('07:00', '15:00');
 		var UK = !this.isItTime('08:00', '16:00');
 		var USA = !this.isItTime('12:00', '20:00');
-		var AUS = !this.isItTime('22:00', '6:00');
+		var AUS = !this.isItTime('22:00', '06:00');
 		var JPN = !this.isItTime('23:00', '07:00');
 
 		if(germany === true){
@@ -54,7 +54,7 @@ class Header extends Component {
 		}
 
 		return(
-			"Markets trading now: " + printMarkets
+			"Major markets trading now: " + printMarkets
 		);
 
 	}

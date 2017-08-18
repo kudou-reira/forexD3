@@ -2,8 +2,11 @@ import Moment from 'react-moment';
 import 'moment-timezone';
 import * as actions from '../actions';
 import { enumerateDays, calculateBetween } from './helpers/helperFunctions';
+import getTimeData from './helpers/getFunctions';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import _ from 'lodash';
+import axios from 'axios';
 var moment = require('moment');
 
 
@@ -17,7 +20,8 @@ class DateChart extends Component {
 		super()
 
 		this.state = {
-			timeData: []
+			timeData: [],
+			holdTimeData: []
 		}
 	}
 
@@ -33,28 +37,83 @@ class DateChart extends Component {
 
 	calculateDays() {
 		var currentDate = moment();
-		var hold = enumerateDays('2017-7-10', currentDate);
+		var hold = enumerateDays('2017-8-10', currentDate);
 
 		var days = [];
 		var firstDay = hold[0];
+		var currencies;
 
-
+		// do the transfer of data here
 		days = hold.map((date) => {
-			this.props.fetchTimeData('USD', date);
+			
 			var inBetween = calculateBetween(firstDay, date);
+			// this.props.fetchTimeData('USD', "2017-08-05"); 
+			var tempData = this.fetchTimeData(this.props.base, date);
+			//make this async someHOW
+			console.log(tempData)
+	
 
 			return(
 				{
-					currencies: this.props.timeData,
+					currencies: 'hi',
 					date: date,
 					days: inBetween
 				}
 			)
 		})
 
-		// console.log("testHold", days);
+
+		console.log("testHold", days);
 		// console.log("testHold", this.props.timeData);
 
+
+	}
+
+	fetchTimeData (currency, date) {
+
+		var empty = [];
+	    axios.get(`http://api.fixer.io/${date}?base=${currency}`)
+	    	.then((res) => {
+	    		const temp  = res.data.rates;
+		        var arr = Object.keys(temp).map(function (key) { 
+		          return (
+		              temp[key]
+		          ); 
+		        });
+
+		        var arr2 = Object.keys(temp).map(function (key) { 
+		          return (
+		              key
+		          ); 
+		        });
+
+
+		        for(var i = 0; i < arr.length; i++){
+		          empty[i] = {title: arr2[i], value: arr[i]};
+		        }
+
+		        _.remove(empty, {title: 'IDR'});
+		        _.remove(empty, {title: 'KRW'});
+		        _.remove(empty, {title: 'HUF'});
+
+		        empty.sort((a, b) => {
+		            var titleA = a.title.toLowerCase()
+		            var titleB = b.title.toLowerCase()
+		            if (titleA < titleB) //sort string ascending
+		                return -1 
+		            if (titleA > titleB)
+		                return 1
+		            return 0 //default return value (no sorting)
+		        })
+	    	})
+
+	        return empty;
+
+	};
+
+
+	flattenData(days) {
+		//first make a list of all currencies
 	}
 
 
@@ -121,7 +180,7 @@ class DateChart extends Component {
 
 function mapStateToProps(state) {
 	return {
-		timeData: state.data.currencyTime
+		currencyTime: state.data
 	};
 }
 

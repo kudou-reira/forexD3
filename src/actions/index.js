@@ -5,7 +5,6 @@ import { FETCH_DATA, FETCH_TIME_DATA } from './types';
 export const fetchData = (currency) => {
 	return async (dispatch) => {
 		const res = await axios.get(`http://api.fixer.io/latest?base=${currency}`);
-		console.log("actions", res);
         const temp  = res.data.rates;
         var arr = Object.keys(temp).map(function (key) { 
           return (
@@ -30,14 +29,14 @@ export const fetchData = (currency) => {
         _.remove(empty, {title: 'HUF'});
 
         empty.sort((a, b) => {
-		    var titleA = a.title.toLowerCase()
-		    var titleB = b.title.toLowerCase()
-		    if (titleA < titleB) //sort string ascending
-		        return -1 
-		    if (titleA > titleB)
-		        return 1
-		    return 0 //default return value (no sorting)
-		})
+    		    var titleA = a.title.toLowerCase()
+    		    var titleB = b.title.toLowerCase()
+    		    if (titleA < titleB) //sort string ascending
+    		        return -1 
+    		    if (titleA > titleB)
+    		        return 1
+    		    return 0 //default return value (no sorting)
+    		})
 
 		//do all the refactoring of objects and array here, then send off with redux-thunk
 		dispatch({type: FETCH_DATA, payload: empty});
@@ -47,6 +46,7 @@ export const fetchData = (currency) => {
 export const fetchTimeData = (currency, date) => {
   return async (dispatch) => {
     const res = await axios.get(`http://api.fixer.io/${date}?base=${currency}`);
+
         const temp  = res.data.rates;
         var arr = Object.keys(temp).map(function (key) { 
           return (
@@ -71,14 +71,14 @@ export const fetchTimeData = (currency, date) => {
         _.remove(empty, {title: 'HUF'});
 
         empty.sort((a, b) => {
-        var titleA = a.title.toLowerCase()
-        var titleB = b.title.toLowerCase()
-        if (titleA < titleB) //sort string ascending
-            return -1 
-        if (titleA > titleB)
-            return 1
-        return 0 //default return value (no sorting)
-    })
+            var titleA = a.title.toLowerCase()
+            var titleB = b.title.toLowerCase()
+            if (titleA < titleB) //sort string ascending
+                return -1 
+            if (titleA > titleB)
+                return 1
+            return 0 //default return value (no sorting)
+        })
 
     dispatch({type: FETCH_TIME_DATA, payload: empty});
   }
