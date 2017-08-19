@@ -29,20 +29,12 @@ class DateChart extends Component {
 		this.calculateDays();
 	}
 
-	// componentWillReceiveProps(nextProps) {
-	// 	if(this.props !== nextProps) {
-	// 		this.setState({timeData: this.props.timeData});
-	// 	}
-	// }
-
 	calculateDays() {
 		var currentDate = moment();
 		var hold = enumerateDays('2017-8-10', currentDate);
 
 		var days = [];
 		var firstDay = hold[0];
-		var currencies;
-
 
 		// do the transfer of data here
 		days = hold.map((date) => {
@@ -134,7 +126,7 @@ class DateChart extends Component {
 function mapStateToProps(state) {
 	return {
 		currencyTime: state.data,
-		saveTime: state.data.saveTime
+		saveTime: state.data.currencyTime
 	};
 }
 

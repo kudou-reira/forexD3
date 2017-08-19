@@ -6,8 +6,7 @@ import fakeData from '../data/fakeData';
 
 const INITIAL_STATE = {
 	currency: fakeData,
-	currencyTime: [],
-	saveTime: []
+	currencyTime: []
 }
 
 export default function(state = INITIAL_STATE, action) {
@@ -16,8 +15,6 @@ export default function(state = INITIAL_STATE, action) {
 			return {...state, currency: action.payload};
 		case FETCH_TIME_DATA:
 			return {...state, currencyTime: action.payload};
-		case SAVE_TIME_DATA:
-			return {...state, saveTime: action.payload}
 		default:
 			return state;
 	}
