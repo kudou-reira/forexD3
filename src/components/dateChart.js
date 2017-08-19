@@ -42,15 +42,25 @@ class DateChart extends Component {
 		var days = [];
 		var firstDay = hold[0];
 		var currencies;
+		var globalHold;
+		var test;
+
+		function callback(d) {
+			globalHold = d;
+			console.log("this is globalHold", globalHold);
+			return globalHold;
+		}
 
 		// do the transfer of data here
 		days = hold.map((date) => {
 			
 			var inBetween = calculateBetween(firstDay, date);
 			// this.props.fetchTimeData('USD', "2017-08-05"); 
-			var tempData = this.fetchTimeData(this.props.base, date);
+
+
+			var tempData = this.fetchTimeData(this.props.base, date, callback)
 			//make this async someHOW
-			console.log(tempData)
+			console.log("this is tempData", globalHold)
 	
 
 			return(
@@ -63,14 +73,11 @@ class DateChart extends Component {
 		})
 
 
-		console.log("testHold", days);
-		// console.log("testHold", this.props.timeData);
-
 
 	}
 
-	fetchTimeData (currency, date) {
-
+	fetchTimeData (currency, date, callback) {
+		var temp;
 		var empty = [];
 	    axios.get(`http://api.fixer.io/${date}?base=${currency}`)
 	    	.then((res) => {
@@ -105,10 +112,13 @@ class DateChart extends Component {
 		                return 1
 		            return 0 //default return value (no sorting)
 		        })
+
+		        return empty;
+	    	}).then((res2) => {
+	    		console.log(res2)
+	    		callback(res2);
 	    	})
-
-	        return empty;
-
+        
 	};
 
 
