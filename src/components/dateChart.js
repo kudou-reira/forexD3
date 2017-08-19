@@ -42,84 +42,27 @@ class DateChart extends Component {
 		var days = [];
 		var firstDay = hold[0];
 		var currencies;
-		var globalHold;
-		var test;
 
-		function callback(d) {
-			globalHold = d;
-			console.log("this is globalHold", globalHold);
-			return globalHold;
-		}
 
 		// do the transfer of data here
 		days = hold.map((date) => {
 			
 			var inBetween = calculateBetween(firstDay, date);
-			// this.props.fetchTimeData('USD', "2017-08-05"); 
+			this.props.fetchTimeData(this.props.base, date);
 
-
-			var tempData = this.fetchTimeData(this.props.base, date, callback)
-			//make this async someHOW
-			console.log("this is tempData", globalHold)
-	
+			console.log("this is tempData", this.props.saveTime)
 
 			return(
 				{
-					currencies: 'hi',
+					currencies: 'test',
 					date: date,
 					days: inBetween
 				}
 			)
 		})
 
-
-
 	}
 
-	fetchTimeData (currency, date, callback) {
-		var temp;
-		var empty = [];
-	    axios.get(`http://api.fixer.io/${date}?base=${currency}`)
-	    	.then((res) => {
-	    		const temp  = res.data.rates;
-		        var arr = Object.keys(temp).map(function (key) { 
-		          return (
-		              temp[key]
-		          ); 
-		        });
-
-		        var arr2 = Object.keys(temp).map(function (key) { 
-		          return (
-		              key
-		          ); 
-		        });
-
-
-		        for(var i = 0; i < arr.length; i++){
-		          empty[i] = {title: arr2[i], value: arr[i]};
-		        }
-
-		        _.remove(empty, {title: 'IDR'});
-		        _.remove(empty, {title: 'KRW'});
-		        _.remove(empty, {title: 'HUF'});
-
-		        empty.sort((a, b) => {
-		            var titleA = a.title.toLowerCase()
-		            var titleB = b.title.toLowerCase()
-		            if (titleA < titleB) //sort string ascending
-		                return -1 
-		            if (titleA > titleB)
-		                return 1
-		            return 0 //default return value (no sorting)
-		        })
-
-		        return empty;
-	    	}).then((res2) => {
-	    		console.log(res2)
-	    		callback(res2);
-	    	})
-        
-	};
 
 
 	flattenData(days) {
@@ -190,7 +133,8 @@ class DateChart extends Component {
 
 function mapStateToProps(state) {
 	return {
-		currencyTime: state.data
+		currencyTime: state.data,
+		saveTime: state.data.saveTime
 	};
 }
 

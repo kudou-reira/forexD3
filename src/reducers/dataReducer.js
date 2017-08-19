@@ -1,4 +1,4 @@
-import { FETCH_DATA, FETCH_TIME_DATA } from '../actions/types';
+import { FETCH_DATA, FETCH_TIME_DATA, SAVE_TIME_DATA } from '../actions/types';
 import fakeData from '../data/fakeData';
 // return false if user is not logged in
 // if not declared 'false', action.payload return is an empty string ''
@@ -6,7 +6,8 @@ import fakeData from '../data/fakeData';
 
 const INITIAL_STATE = {
 	currency: fakeData,
-	currencyTime: []
+	currencyTime: [],
+	saveTime: []
 }
 
 export default function(state = INITIAL_STATE, action) {
@@ -15,6 +16,8 @@ export default function(state = INITIAL_STATE, action) {
 			return {...state, currency: action.payload};
 		case FETCH_TIME_DATA:
 			return {...state, currencyTime: action.payload};
+		case SAVE_TIME_DATA:
+			return {...state, saveTime: action.payload}
 		default:
 			return state;
 	}

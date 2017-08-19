@@ -1,6 +1,6 @@
 import axios from 'axios';
 import _ from 'lodash';
-import { FETCH_DATA, FETCH_TIME_DATA } from './types';
+import { FETCH_DATA, FETCH_TIME_DATA, SAVE_TIME_DATA } from './types';
 
 export const fetchData = (currency) => {
 	return async (dispatch) => {
@@ -83,4 +83,13 @@ export const fetchTimeData = (currency, date) => {
     dispatch({type: FETCH_TIME_DATA, payload: empty});
   }
 };
+
+
+export const saveTimeData = (data) => {
+
+  return{
+    type: SAVE_TIME_DATA,
+    payload: data
+  }
+}
 
