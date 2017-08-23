@@ -118,6 +118,7 @@ class DateChart extends Component {
 			        chartSeries= {chartSeries} 
 			        x= {x}
 			    />
+			    {console.log(this.props.saveTime)}
 			</div>
 		);
 	}
@@ -125,7 +126,6 @@ class DateChart extends Component {
 
 function mapStateToProps(state) {
 	return {
-		currencyTime: state.data,
 		saveTime: state.data.currencyTime
 	};
 }
