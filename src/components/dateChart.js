@@ -53,6 +53,8 @@ class DateChart extends Component {
 			)
 		})
 
+		console.log(days);
+
 	}
 
 
@@ -84,11 +86,17 @@ class DateChart extends Component {
               "age": 12,
               "index": 3
           }
-      ];
+        ];
 
       //for color, pass the array of colors to the redux store then pop off from the beginning into chartSeries
 
-      var chartSeries = [
+      // https://github.com/react-d3/react-d3-basic
+
+      // http://www.reactd3.org/docs/basic/#line_multiple
+
+      // https://github.com/react-d3/react-d3-basic
+
+		var chartSeries = [
           {
             field: 'age',
             name: 'USD',
@@ -99,7 +107,7 @@ class DateChart extends Component {
               "fill-opacity": .2
             }
           }
-        ]
+    	]
 
         //iterate over a list of years and calculate days from using moment
         //the data will have years, but the function down here will change it
@@ -114,11 +122,12 @@ class DateChart extends Component {
 					margins= {margins}
 			        width={svgDimensions.width}
 			        height={svgDimensions.height}
-			        data= {data} 
+			        data={data} 
 			        chartSeries= {chartSeries} 
 			        x= {x}
 			    />
 			    {console.log(this.props.saveTime)}
+			    {console.log(this.props.allTime)}
 			</div>
 		);
 	}
@@ -126,7 +135,8 @@ class DateChart extends Component {
 
 function mapStateToProps(state) {
 	return {
-		saveTime: state.data.currencyTime
+		saveTime: state.data.currencyTime,
+		allTime: state.data
 	};
 }
 
