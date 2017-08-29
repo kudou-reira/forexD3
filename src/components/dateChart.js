@@ -44,6 +44,9 @@ class DateChart extends Component {
 
 			console.log("this is tempData", this.props.saveTime)
 
+			//map over tempData and push the values as an object to an array
+			//put the array variable outside of this map
+
 			return(
 				{
 					currencies: 'test',
@@ -51,6 +54,58 @@ class DateChart extends Component {
 					days: inBetween
 				}
 			)
+
+			// make an array of objects, but need it for every currency
+			// ex.
+			/*
+			
+			[
+				AUD: {
+					value: *value from props here, but need every day's worth*
+					date: date,
+					days: inBetween
+				},
+				BGN: {
+	
+				},
+				BRL: {
+	
+				},
+				etc...
+			]
+
+
+			*/
+
+			/*
+				use this to get the names of key
+				for keys of an object
+				Object.keys(array).join(" ")
+
+				can also make an array
+
+				var arr_keys = []
+				for(var i in arr){
+					arr_keys.push(i)
+				}
+
+			*/
+
+			/*
+				from the data set up, looks like you can put 
+
+				[
+					{
+						"AUD": value,
+						"index": days or inBetween from above
+					},
+					etc...
+				]
+
+				does it work if you put in an array of objects and just change the currency name...?
+			*/
+
+			
 		})
 
 		console.log(days);
@@ -88,6 +143,8 @@ class DateChart extends Component {
           }
         ];
 
+      //just push all the data in here, but differentiate them with their currency value key "AUD", etc
+
       //for color, pass the array of colors to the redux store then pop off from the beginning into chartSeries
 
       // https://github.com/react-d3/react-d3-basic
@@ -119,7 +176,7 @@ class DateChart extends Component {
 		return(
 			<div>
 				<LineChart
-					margins= {margins}
+					margins={margins}
 			        width={svgDimensions.width}
 			        height={svgDimensions.height}
 			        data={data} 

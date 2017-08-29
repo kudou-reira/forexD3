@@ -12,8 +12,24 @@ body,html{
   	position: absolute;
     margin: auto;
     display: block;
-	margin: auto;
-	text-align:center;
+  	text-align:center;
+}
+
+.bind{
+  margin-bottom: 1%;
+}
+
+.bottomMargin{
+  margin-bottom: 4%;
+}
+
+h2{
+  margin-top: 3%;
+  color: red;
+}
+
+.recharts-wrapper {
+  margin : 0 auto;
 }
 
 .chart{

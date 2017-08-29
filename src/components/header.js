@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Moment from 'react-moment';
 import 'moment-timezone';
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import * as actions from '../actions';
 var moment = require('moment');
 var now = moment();
 
@@ -11,9 +13,11 @@ class Header extends Component {
 		super()
 
 		this.state = {
-			currentTime: now
+			currentTime: now,
+			showCurrencies: true
 		}
 	}
+
 
 	checkMarkets() {
 
@@ -76,31 +80,67 @@ class Header extends Component {
 	    return now.isBetween(start, end, null, '[)');
 	}
 
+	/*
+
+  	logChange(val) {
+  		this.setState({ placeHolder: val.value, currencyQuery: val.value }, () => {
+  			this.generateColors();
+  			this.props.fetchData(this.state.currencyQuery);
+  			this.props.fetchTimeData(this.state.currencyQuery);
+  		});
+  	}
+
+	*/
+
+	showDateChart(){
+		//there were problems here, idk why this fixes it...
+		console.log(this.state.showCurrencies);
+		var x = this.state.showCurrencies;
+		console.log(x);
+		var x = !x;
+		console.log(x);
+		this.setState({showCurrencies: x}, () => {
+			console.log(this.state.showCurrencies);
+			this.props.renderChart(this.state.showCurrencies);
+		});
+	}
+
+	renderOff(){
+		if(this.state.showCurrencies === true){
+			return(
+				<MenuItem eventKey={3.1} onClick={this.showDateChart.bind(this)}>Turn off Currency Date Chart</MenuItem>
+			)
+		}
+
+		else{
+			return(
+				<MenuItem eventKey={3.1} onClick={this.showDateChart.bind(this)}>Turn on Currency Date Chart</MenuItem>
+			)
+		}
+	}
+
 	render(){
 		return(
 				<div className="container">
 					<Navbar inverse collapseOnSelect>
 					    <Navbar.Header>
 					      <Navbar.Brand>
-					        <a href="#">Forex</a>
+					        <a href="http://fixer.io/" target="_blank">Forex API</a>
 					      </Navbar.Brand>
 					      <Navbar.Toggle />
 					    </Navbar.Header>
 					    <Navbar.Collapse>
 					      <Nav>
-					        <NavItem className="navbar-item" href="#">Link</NavItem>
-					        <NavItem href="#">Link</NavItem>
-					        <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
-					          <MenuItem eventKey={3.1}>Action</MenuItem>
-					          <MenuItem eventKey={3.2}>Another action</MenuItem>
-					          <MenuItem eventKey={3.3}>Something else here</MenuItem>
+					        <NavDropdown eventKey={3} title="Show Currencies Over Time" id="basic-nav-dropdown">
+					          {this.renderOff()}
 					          <MenuItem divider />
-					          <MenuItem eventKey={3.3}>Separated link</MenuItem>
+					          
+
 					        </NavDropdown>
 					      </Nav>
 					      <Nav pullRight>
 					      	<NavItem>
-						      	{this.checkMarkets()}
+						      	{this.checkMarkets()}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					      	</NavItem>
 					      	<NavItem>
 						      	The current time is: &nbsp;
@@ -115,4 +155,4 @@ class Header extends Component {
 	}
 }
 
-export default Header;
+export default connect(null, actions)(Header);

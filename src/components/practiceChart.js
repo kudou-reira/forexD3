@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import * as d3 from "d3";
 import { scaleBand, scaleLinear } from 'd3-scale';
-import { connect } from 'react-redux';
+
 
 import Axes from './axes';
 import Bars from './bars';
@@ -89,6 +89,7 @@ class PracticeChart extends Component {
 					<Bars
 						scales={{xScaleY, yScaleY}}
 						margins={margins}
+						colors={this.props.colors}
 						data={this.props.fakeData}
 						maxValue={maxValue}
 						svgDimensions={svgDimensions}

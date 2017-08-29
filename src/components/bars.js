@@ -19,20 +19,9 @@ class Bars extends Component {
 
   		//make this color generator a function in the future
 
-  		var rgb = [];
-
-		for(var j = 0; j < this.props.data.length; j++){
-			var letters = '0123456789ABCDEF';
-			var color = '#';
-			for (var i = 0; i < 6; i++) {
-				color += letters[Math.floor(Math.random() * 16)];
-			}
-			rgb.push(color);
-		}
-
       	this.colorOrdinalScale = scaleOrdinal()
 							.domain([0, this.props.maxValue])
-							.range(rgb);
+							.range(this.props.colors);
 
       	//let color = d3.scaleOrdinal()
       // .domain(["New York", "San Francisco", "Austin"])
